@@ -31,7 +31,10 @@ export default function Dashboard() {
     <div>
       <h2>Dashboard</h2>
       <p>Você está logado.</p>
+
       {user?.role === "member" && <Link to="/my-borrowings">My Borrowings</Link>}
+      {user?.role === "librarian" && (<Link to="/admin/borrowings">Manage Borrowings</Link>)}
+
       <button onClick={handleLogout}>Sair</button>
     </div>
   );

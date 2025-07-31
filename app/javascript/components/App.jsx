@@ -7,6 +7,7 @@ import { AuthProvider } from "./AuthContext";
 import RequireAuth from "./RequireAuth";
 import BookForm from "./pages/BookForm";
 import BorrowingsList from "./pages/BorrowingsList";
+import BorrowingsAdmin from "./pages/BorrowingsAdmin";
 
 export default function App() {
   return (
@@ -52,6 +53,14 @@ export default function App() {
               element={
                 <RequireAuth>
                   <BorrowingsList />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/admin/borrowings"
+              element={
+                <RequireAuth>
+                  <BorrowingsAdmin />
                 </RequireAuth>
               }
             />
