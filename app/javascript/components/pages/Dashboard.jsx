@@ -73,10 +73,12 @@ function MemberDashboard({ data }) {
     <>
       <p><strong>Currently Borrowed:</strong> {data.borrowed_count}</p>
       <p><strong>Overdue:</strong> {data.overdue_count}</p>
-      <p><strong>Due Dates:</strong></p>
+      <p><strong>Borrowed Books:</strong></p>
       <ul>
-        {data.due_dates.map(([id, due]) => (
-          <li key={id}>{new Date(due).toLocaleDateString()}</li>
+        {data.borrowed_books.map((book) => (
+          <li key={book.id}>
+              <strong>{book.title}</strong> by {book.author} — Due on: {new Date(book.due_at).toLocaleDateString()}
+          </li>
         ))}
       </ul>
     </>

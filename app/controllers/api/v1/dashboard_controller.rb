@@ -29,12 +29,19 @@ module Api
       end
 
       def member_dashboard
-        active = current_user.borrowings.where(returned_at: nil)
+        active = current_user.borrowings.where(returned_at: nil).includes(:book)
         overdue = active.where("due_at < ?", Date.current)
         {
           borrowed_count: active.count,
           overdue_count: overdue.count,
-          due_dates: active.order(:due_at).pluck(:id, :due_at)
+          borrowed_books: active.order(:due_at).map do |b|
+            {
+              id: b.id,
+              title: b.book.title,
+              author: b.book.author,
+              due_at: b.due_at
+            }
+          end
         }
       end
     end
