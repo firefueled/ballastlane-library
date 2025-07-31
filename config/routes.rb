@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :books
       resources :borrowings, only: [:create, :update]
       get 'dashboard', to: 'dashboard#index'
+      get "current_user", to: "sessions#current"
     end
   end
 
