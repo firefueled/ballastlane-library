@@ -6,6 +6,7 @@ import BookList from "./pages/BookList";
 import { AuthProvider } from "./AuthContext";
 import RequireAuth from "./RequireAuth";
 import BookForm from "./pages/BookForm";
+import BorrowingsList from "./pages/BorrowingsList";
 
 export default function App() {
   return (
@@ -43,6 +44,14 @@ export default function App() {
               element={
                 <RequireAuth>
                   <BookForm />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/my-borrowings"
+              element={
+                <RequireAuth>
+                  <BorrowingsList />
                 </RequireAuth>
               }
             />

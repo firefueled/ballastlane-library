@@ -3,9 +3,16 @@ module Api
     class BorrowingsController < ApplicationController
       before_action :authenticate_user!
 
+      def index
+        if current_user.librarian?
+          render json: Borrowing.includes(:user, :book).all.as_json(include: [:user, :book])
+        else
+          render json: current_user.borrowings.includes(:book).as_json(include: :book)
+        end
+      end
+
       def create
-        book = Book.find(params[:book_id])
-        borrowing = Borrowing.new(user: current_user, book: book)
+        borrowing = current_user.borrowings.new(book_id: params[:book_id])
 
         if borrowing.save
           render json: borrowing, status: :created
@@ -14,7 +21,7 @@ module Api
         end
       end
 
-      def update
+      def return
         borrowing = Borrowing.find(params[:id])
         unless current_user.librarian?
           return head :forbidden

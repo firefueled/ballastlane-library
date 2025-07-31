@@ -1,5 +1,8 @@
 class User < ApplicationRecord
   enum :role, [ :member, :librarian ]
+
+  has_many :borrowings, dependent: :destroy
+
   after_initialize :set_default_role, if: :new_record?
 
   def set_default_role

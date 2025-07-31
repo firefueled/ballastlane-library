@@ -13,7 +13,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :books
-      resources :borrowings, only: [:create, :update]
+
+      resources :borrowings, only: [:index, :create] do
+        member do
+          patch :return
+        end
+      end
+
       get 'dashboard', to: 'dashboard#index'
       get "current_user", to: "sessions#current"
     end

@@ -22,6 +22,27 @@ export default function BookList() {
     }
   };
 
+  const borrowBook = async (bookId) => {
+    const res = await fetch("/api/v1/borrowings", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": getCsrfToken(),
+      },
+      body: JSON.stringify({ book_id: bookId }),
+    });
+
+    if (res.ok) {
+      alert("Book borrowed successfully.");
+      fetchBooks();
+    } else {
+      const data = await res.json();
+      alert("Error: " + data.errors?.join(", "));
+    }
+  };
+
+
   useEffect(() => {
     fetchBooks();
   }, []);
@@ -63,6 +84,9 @@ export default function BookList() {
         {books.map((book) => (
           <li key={book.id}>
             <strong>{book.title}</strong> — {book.author} ({book.genre})
+            {user?.role === "member" && book.available_copies > 0 && (
+              <button onClick={() => borrowBook(book.id)}>Borrow</button>
+            )}
             {user?.role === "librarian" && (
               <>
                 {" "}
