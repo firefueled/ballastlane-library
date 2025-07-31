@@ -5,6 +5,7 @@ import Dashboard from "./pages/Dashboard";
 import BookList from "./pages/BookList";
 import { AuthProvider } from "./AuthContext";
 import RequireAuth from "./RequireAuth";
+import BookForm from "./pages/BookForm";
 
 export default function App() {
   return (
@@ -29,6 +30,22 @@ export default function App() {
               </RequireAuth>
             }
           />
+            <Route
+              path="/books/new"
+              element={
+                <RequireAuth>
+                  <BookForm />
+                </RequireAuth>
+              }
+            />
+            <Route
+              path="/books/:id/edit"
+              element={
+                <RequireAuth>
+                  <BookForm />
+                </RequireAuth>
+              }
+            />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
