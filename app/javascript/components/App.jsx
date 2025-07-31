@@ -64,6 +64,14 @@ export default function App() {
                 </RequireAuth>
               }
             />
+            <Route
+              path="/dashboard"
+              element={
+                <RequireAuth>
+                  <Dashboard />
+                </RequireAuth>
+              }
+            />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

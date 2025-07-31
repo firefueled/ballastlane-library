@@ -3,7 +3,7 @@ module Api
     class DashboardController < ApplicationController
       before_action :authenticate_user!
 
-      def index
+      def show
         if current_user.librarian?
           render json: librarian_dashboard
         else
@@ -14,26 +14,27 @@ module Api
       private
 
       def librarian_dashboard
+        today = Date.current
         {
           total_books: Book.count,
-          total_borrowed: Borrowing.where(returned_at: nil).count,
-          due_today: Borrowing.where(due_at: Time.zone.today.all_day, returned_at: nil).count,
-          overdue_members: Borrowing.includes(:user).where("due_at < ? AND returned_at IS NULL", Time.current).map do |b|
-            { user: b.user.email, book: b.book.title, due_at: b.due_at }
-          end
+          borrowed_books: Borrowing.where(returned_at: nil).count,
+          due_today: Borrowing.where(returned_at: nil, due_at: today.all_day).count,
+          overdue_members: User
+            .joins(:borrowings)
+            .where(role: :member)
+            .where("borrowings.returned_at IS NULL AND borrowings.due_at < ?", today)
+            .distinct
+            .pluck(:email)
         }
       end
 
       def member_dashboard
-        my_borrowings = current_user.borrowings.includes(:book)
+        active = current_user.borrowings.where(returned_at: nil)
+        overdue = active.where("due_at < ?", Date.current)
         {
-          my_books: my_borrowings.map do |b|
-            {
-              title: b.book.title,
-              due_at: b.due_at,
-              returned: b.returned?
-            }
-          end
+          borrowed_count: active.count,
+          overdue_count: overdue.count,
+          due_dates: active.order(:due_at).pluck(:id, :due_at)
         }
       end
     end

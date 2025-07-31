@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../AuthContext";
 
@@ -10,7 +10,13 @@ function getCsrfToken() {
 export default function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [data, setData] = useState(null);
 
+  useEffect(() => {
+    fetch("/api/v1/dashboard", { credentials: "include" })
+      .then((res) => res.json())
+      .then(setData);
+  }, []);
   const handleLogout = async () => {
     const response = await fetch("/users/sign_out", {
       method: "DELETE",
@@ -27,15 +33,52 @@ export default function Dashboard() {
     }
   };
 
+  if (!user || !data) return <p>Loading...</p>;
+
   return (
-    <div>
+    <div style={{ maxWidth: "600px", margin: "2rem auto" }}>
       <h2>Dashboard</h2>
-      <p>Você está logado.</p>
+      {user.role === "librarian" ? (
+        <LibrarianDashboard data={data} />
+      ) : (
+        <MemberDashboard data={data} />
+      )}
 
       {user?.role === "member" && <Link to="/my-borrowings">My Borrowings</Link>}
       {user?.role === "librarian" && (<Link to="/admin/borrowings">Manage Borrowings</Link>)}
 
       <button onClick={handleLogout}>Sair</button>
     </div>
+  );
+}
+
+function LibrarianDashboard({ data }) {
+  return (
+    <>
+      <p><strong>Total Books:</strong> {data.total_books}</p>
+      <p><strong>Borrowed Books:</strong> {data.borrowed_books}</p>
+      <p><strong>Due Today:</strong> {data.due_today}</p>
+      <p><strong>Members with Overdue:</strong></p>
+      <ul>
+        {data.overdue_members.map((email) => (
+          <li key={email}>{email}</li>
+        ))}
+      </ul>
+    </>
+  );
+}
+
+function MemberDashboard({ data }) {
+  return (
+    <>
+      <p><strong>Currently Borrowed:</strong> {data.borrowed_count}</p>
+      <p><strong>Overdue:</strong> {data.overdue_count}</p>
+      <p><strong>Due Dates:</strong></p>
+      <ul>
+        {data.due_dates.map(([id, due]) => (
+          <li key={id}>{new Date(due).toLocaleDateString()}</li>
+        ))}
+      </ul>
+    </>
   );
 }

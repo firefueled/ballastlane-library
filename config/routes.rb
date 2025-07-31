@@ -20,7 +20,7 @@ Rails.application.routes.draw do
         end
       end
 
-      get 'dashboard', to: 'dashboard#index'
+      get 'dashboard', to: 'dashboard#show'
       get "current_user", to: "sessions#current"
     end
   end
