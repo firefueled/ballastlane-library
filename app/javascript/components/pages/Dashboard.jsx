@@ -3,11 +3,6 @@ import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../AuthContext";
 import {fetchWithCsrf} from "../../api";
 
-function getCsrfToken() {
-  const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta && meta.content;
-}
-
 export default function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -19,12 +14,8 @@ export default function Dashboard() {
       .then(setData);
   }, []);
   const handleLogout = async () => {
-    const response = await fetch("/users/sign_out", {
+    const response = await fetchWithCsrf("/users/sign_out", {
       method: "DELETE",
-      headers: {
-        "X-CSRF-Token": getCsrfToken(),
-      },
-      credentials: "include",
     });
 
     if (response.ok) {

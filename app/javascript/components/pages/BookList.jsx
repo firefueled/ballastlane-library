@@ -3,11 +3,6 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import {fetchWithCsrf} from "../../api";
 
-function getCsrfToken() {
-  const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta && meta.content;
-}
-
 export default function BookList() {
   const [books, setBooks] = useState([]);
   const [q, setQ] = useState("");
