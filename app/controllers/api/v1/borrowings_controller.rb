@@ -22,10 +22,11 @@ module Api
       end
 
       def return
-        borrowing = Borrowing.find(params[:id])
         unless current_user.librarian?
           return head :forbidden
         end
+
+        borrowing = Borrowing.find(params[:id])
 
         if borrowing.update(returned_at: Time.current)
           render json: borrowing
