@@ -44,24 +44,24 @@ export default function BookForm() {
       navigate("/books");
     } else {
       const data = await res.json();
-      alert("Erro: " + (data.errors || []).join(", "));
+      alert("Error: " + (data.errors || []).join(", "));
     }
   };
 
   if (user?.role !== "librarian") {
-    return <p>Acesso restrito a bibliotecários.</p>;
+    return <p>Access restricted to librarians.</p>;
   }
 
   return (
     <div style={{ maxWidth: "600px", margin: "2rem auto" }}>
-      <h2>{isEdit ? "Editar Livro" : "Novo Livro"}</h2>
+      <h2>{isEdit ? "Edit Book" : "New Book"}</h2>
       <form onSubmit={handleSubmit}>
-        <input name="title" value={book.title} onChange={handleChange} placeholder="Título" required /><br />
-        <input name="author" value={book.author} onChange={handleChange} placeholder="Autor" required /><br />
-        <input name="genre" value={book.genre} onChange={handleChange} placeholder="Gênero" required /><br />
+        <input name="title" value={book.title} onChange={handleChange} placeholder="Title" required /><br />
+        <input name="author" value={book.author} onChange={handleChange} placeholder="Author" required /><br />
+        <input name="genre" value={book.genre} onChange={handleChange} placeholder="Genre" required /><br />
         <input name="isbn" value={book.isbn} onChange={handleChange} placeholder="ISBN" required /><br />
-        <input name="total_copies" type="number" min="1" value={book.total_copies} onChange={handleChange} placeholder="Total de Cópias" required /><br />
-        <button type="submit">{isEdit ? "Salvar" : "Criar"}</button>
+        <input name="total_copies" type="number" min="1" value={book.total_copies} onChange={handleChange} placeholder="Total Copies" required /><br />
+        <button type="submit">{isEdit ? "Save" : "Create"}</button>
       </form>
     </div>
   );

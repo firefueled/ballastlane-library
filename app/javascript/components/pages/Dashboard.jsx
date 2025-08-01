@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
-import {useAuth} from "../AuthContext";
-import {fetchWithCsrf} from "../../api";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
+import { fetchWithCsrf } from "../../api";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ export default function Dashboard() {
       .then((res) => res.json())
       .then(setData);
   }, []);
+
   const handleLogout = async () => {
     const response = await fetchWithCsrf("/users/sign_out", {
       method: "DELETE",
@@ -21,7 +22,7 @@ export default function Dashboard() {
     if (response.ok) {
       navigate("/login");
     } else {
-      alert("Erro ao sair. Tente novamente.");
+      alert("Error while signing out. Try again.");
     }
   };
 
@@ -37,9 +38,9 @@ export default function Dashboard() {
       )}
 
       {user?.role === "member" && <Link to="/my-borrowings">My Borrowings</Link>}
-      {user?.role === "librarian" && (<Link to="/admin/borrowings">Manage Borrowings</Link>)}
+      {user?.role === "librarian" && <Link to="/admin/borrowings">Manage Borrowings</Link>}
 
-      <button onClick={handleLogout}>Sair</button>
+      <button onClick={handleLogout}>Sign Out</button>
     </div>
   );
 }
@@ -69,7 +70,7 @@ function MemberDashboard({ data }) {
       <ul>
         {data.borrowed_books.map((book) => (
           <li key={book.id}>
-              <strong>{book.title}</strong> by {book.author} — Due on: {new Date(book.due_at).toLocaleDateString()}
+            <strong>{book.title}</strong> by {book.author} — Due on: {new Date(book.due_at).toLocaleDateString()}
           </li>
         ))}
       </ul>

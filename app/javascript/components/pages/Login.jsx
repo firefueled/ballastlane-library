@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {fetchWithCsrf} from "../../api";
+import { fetchWithCsrf } from "../../api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ export default function Login() {
       setError(null);
       navigate("/dashboard");
     } else {
-      setError("Email ou senha inválidos.");
+      setError("Invalid email or password.");
     }
   };
 
@@ -40,7 +40,7 @@ export default function Login() {
           />
         </div>
         <div>
-          <label>Senha:</label><br />
+          <label>Password:</label><br />
           <input
             type="password"
             required
@@ -49,7 +49,7 @@ export default function Login() {
             style={{ width: "100%", marginBottom: "1rem" }}
           />
         </div>
-        <button type="submit">Entrar</button>
+        <button type="submit">Sign In</button>
       </form>
     </div>
   );
