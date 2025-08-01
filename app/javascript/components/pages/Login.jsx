@@ -11,7 +11,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetchWithCsrf("/users/sign_in", {
+    const response = await fetchWithCsrf("/api/v1/users/sign_in", {
       method: "POST",
       body: JSON.stringify({ user: { email, password } }),
     });

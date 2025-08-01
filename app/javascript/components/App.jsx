@@ -8,6 +8,7 @@ import RequireAuth from "./RequireAuth";
 import BookForm from "./pages/BookForm";
 import BorrowingsList from "./pages/BorrowingsList";
 import BorrowingsAdmin from "./pages/BorrowingsAdmin";
+import Register from "./pages/Register";
 
 export default function App() {
   return (
@@ -72,6 +73,7 @@ export default function App() {
                 </RequireAuth>
               }
             />
+            <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

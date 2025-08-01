@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchWithCsrf("/api/v1/current_user")
+    fetchWithCsrf("/api/v1/users/current")
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error("Not authenticated");

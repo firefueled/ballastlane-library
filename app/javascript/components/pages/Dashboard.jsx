@@ -15,7 +15,7 @@ export default function Dashboard() {
   }, []);
 
   const handleLogout = async () => {
-    const response = await fetchWithCsrf("/users/sign_out", {
+    const response = await fetchWithCsrf("/api/v1/users/sign_out", {
       method: "DELETE",
     });
 
