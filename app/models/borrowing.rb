@@ -3,7 +3,8 @@ class Borrowing < ApplicationRecord
   belongs_to :book
 
   validate :unique_borrowing_per_user, on: :create
-  validate :book_availability, on: :create
+  validates :book, presence: true
+  validate :book_availability, on: :create, if: -> { book.present? }
 
   before_create :set_borrow_dates
   after_create :decrement_book
