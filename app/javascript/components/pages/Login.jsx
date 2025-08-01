@@ -25,32 +25,52 @@ export default function Login() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "2rem auto" }}>
-      <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label><br />
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: "100%", marginBottom: "1rem" }}
-          />
-        </div>
-        <div>
-          <label>Password:</label><br />
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: "100%", marginBottom: "1rem" }}
-          />
-        </div>
-        <button type="submit">Sign In</button>
-      </form>
-    </div>
+    <section className="section is-flex is-justify-content-center is-align-items-center">
+      <div className="box" style={{ maxWidth: "400px", width: "100%" }}>
+        <h1 className="title is-4 has-text-centered">Sign In</h1>
+
+        {error && (
+          <div className="notification is-danger is-light">{error}</div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <div className="field">
+            <label className="label">Email</label>
+            <div className="control">
+              <input
+                className="input"
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+              />
+            </div>
+          </div>
+
+          <div className="field">
+            <label className="label">Password</label>
+            <div className="control">
+              <input
+                className="input"
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+              />
+            </div>
+          </div>
+
+          <div className="field mt-4">
+            <div className="control">
+              <button className="button is-link is-fullwidth" type="submit">
+                Sign In
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
   );
 }

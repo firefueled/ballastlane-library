@@ -49,20 +49,60 @@ export default function BookForm() {
   };
 
   if (user?.role !== "librarian") {
-    return <p>Access restricted to librarians.</p>;
+    return <p className="has-text-danger has-text-centered">Access restricted to librarians.</p>;
   }
 
   return (
-    <div style={{ maxWidth: "600px", margin: "2rem auto" }}>
-      <h2>{isEdit ? "Edit Book" : "New Book"}</h2>
-      <form onSubmit={handleSubmit}>
-        <input name="title" value={book.title} onChange={handleChange} placeholder="Title" required /><br />
-        <input name="author" value={book.author} onChange={handleChange} placeholder="Author" required /><br />
-        <input name="genre" value={book.genre} onChange={handleChange} placeholder="Genre" required /><br />
-        <input name="isbn" value={book.isbn} onChange={handleChange} placeholder="ISBN" required /><br />
-        <input name="total_copies" type="number" min="1" value={book.total_copies} onChange={handleChange} placeholder="Total Copies" required /><br />
-        <button type="submit">{isEdit ? "Save" : "Create"}</button>
-      </form>
+    <div className="container">
+      <div className="columns is-centered mt-5">
+        <div className="column is-half">
+          <h2 className="title is-4 has-text-centered">{isEdit ? "Edit Book" : "New Book"}</h2>
+          <form onSubmit={handleSubmit} className="box">
+            <div className="field">
+              <label className="label">Title</label>
+              <div className="control">
+                <input className="input" name="title" value={book.title} onChange={handleChange} required />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Author</label>
+              <div className="control">
+                <input className="input" name="author" value={book.author} onChange={handleChange} required />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Genre</label>
+              <div className="control">
+                <input className="input" name="genre" value={book.genre} onChange={handleChange} required />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">ISBN</label>
+              <div className="control">
+                <input className="input" name="isbn" value={book.isbn} onChange={handleChange} required />
+              </div>
+            </div>
+
+            <div className="field">
+              <label className="label">Total Copies</label>
+              <div className="control">
+                <input className="input" type="number" name="total_copies" min="1" value={book.total_copies} onChange={handleChange} required />
+              </div>
+            </div>
+
+            <div className="field is-grouped is-justify-content-center mt-4">
+              <div className="control">
+                <button type="submit" className="button is-link">
+                  {isEdit ? "Save" : "Create"}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

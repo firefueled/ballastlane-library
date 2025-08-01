@@ -50,39 +50,77 @@ export default function BookList() {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "2rem auto" }}>
-      <h2>Books</h2>
-      <form onSubmit={handleSearch}>
-        <input
-          type="text"
-          value={q}
-          placeholder="Search by title, author, or genre"
-          onChange={(e) => setQ(e.target.value)}
-          style={{ width: "100%", marginBottom: "1rem" }}
-        />
-        <button type="submit">Search</button>
-      </form>
+    <section className="section">
+      <div className="container">
+        <h2 className="title is-4">Books</h2>
 
-      {user?.role === "librarian" && <Link to="/books/new">+ New Book</Link>}
+        <form onSubmit={handleSearch} className="mb-4">
+          <div className="field has-addons">
+            <div className="control is-expanded">
+              <input
+                className="input"
+                type="text"
+                value={q}
+                placeholder="Search by title, author, or genre"
+                onChange={(e) => setQ(e.target.value)}
+              />
+            </div>
+            <div className="control">
+              <button type="submit" className="button is-link">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
 
-      <ul>
-        {books.map((book) => (
-          <li key={book.id}>
-            <strong>{book.title}</strong> — {book.author} ({book.genre})
-            {user?.role === "member" && book.available_copies > 0 && (
-              <button onClick={() => borrowBook(book.id)}>Borrow</button>
-            )}
-            {user?.role === "librarian" && (
-              <>
-                {" "}
-                <Link to={`/books/${book.id}/edit`}>Edit</Link>
-                {" "}
-                <button onClick={() => handleDelete(book.id)}>Delete</button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+        {user?.role === "librarian" && (
+          <div className="mb-4">
+            <Link to="/books/new" className="button is-primary is-small">
+              + New Book
+            </Link>
+          </div>
+        )}
+
+        <div className="box">
+          <ul>
+            {books.map((book) => (
+              <li key={book.id} className="mb-4">
+                <div className="content">
+                  <p>
+                    <strong>{book.title}</strong> — {book.author} ({book.genre})
+                  </p>
+                  <div className="buttons mt-2">
+                    {user?.role === "member" && book.available_copies > 0 && (
+                      <button
+                        onClick={() => borrowBook(book.id)}
+                        className="button is-success is-small"
+                      >
+                        Borrow
+                      </button>
+                    )}
+                    {user?.role === "librarian" && (
+                      <>
+                        <Link
+                          to={`/books/${book.id}/edit`}
+                          className="button is-info is-small"
+                        >
+                          Edit
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(book.id)}
+                          className="button is-danger is-small"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }
