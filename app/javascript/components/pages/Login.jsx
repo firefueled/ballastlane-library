@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-function getCsrfToken() {
-  const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta && meta.content;
-}
+import {fetchWithCsrf} from "../../api";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,10 +11,8 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("/users/sign_in", {
+    const response = await fetchWithCsrf("/users/sign_in", {
       method: "POST",
-      headers: { "Content-Type": "application/json",     "X-CSRF-Token": getCsrfToken(), },
-      credentials: "include", // necessário para o cookie de sessão
       body: JSON.stringify({ user: { email, password } }),
     });
 

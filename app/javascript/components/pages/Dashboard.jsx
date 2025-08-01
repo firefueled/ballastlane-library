@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../AuthContext";
+import {fetchWithCsrf} from "../../api";
 
 function getCsrfToken() {
   const meta = document.querySelector('meta[name="csrf-token"]');
@@ -13,7 +14,7 @@ export default function Dashboard() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("/api/v1/dashboard", { credentials: "include" })
+    fetchWithCsrf("/api/v1/dashboard")
       .then((res) => res.json())
       .then(setData);
   }, []);

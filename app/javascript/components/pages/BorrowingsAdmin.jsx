@@ -1,18 +1,14 @@
 // app/javascript/components/pages/BorrowingsAdmin.jsx
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../AuthContext";
-
-function getCsrfToken() {
-  const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta && meta.content;
-}
+import {fetchWithCsrf} from "../../api";
 
 export default function BorrowingsAdmin() {
   const { user } = useAuth();
   const [borrowings, setBorrowings] = useState([]);
 
   const fetchBorrowings = () => {
-    fetch("/api/v1/borrowings", { credentials: "include" })
+    fetchWithCsrf("/api/v1/borrowings")
       .then((res) => res.json())
       .then(setBorrowings);
   };
@@ -22,12 +18,8 @@ export default function BorrowingsAdmin() {
   }, [user]);
 
   const markReturned = async (id) => {
-    const res = await fetch(`/api/v1/borrowings/${id}/return`, {
+    const res = await fetchWithCsrf(`/api/v1/borrowings/${id}/return`, {
       method: "PATCH",
-      credentials: "include",
-      headers: {
-        "X-CSRF-Token": getCsrfToken(),
-      },
     });
     if (res.ok) fetchBorrowings();
   };

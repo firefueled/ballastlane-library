@@ -7,7 +7,7 @@ export default function BorrowingsList() {
   const [borrowings, setBorrowings] = useState([]);
 
   useEffect(() => {
-    fetch("/api/v1/borrowings", { credentials: "include" })
+    fetch("/api/v1/borrowings")
       .then((res) => res.json())
       .then(setBorrowings);
   }, []);

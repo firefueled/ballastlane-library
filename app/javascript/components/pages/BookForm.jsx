@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../AuthContext";
-
-function getCsrfToken() {
-  const meta = document.querySelector('meta[name="csrf-token"]');
-  return meta && meta.content;
-}
+import { fetchWithCsrf } from "../../api";
 
 export default function BookForm() {
   const { user } = useAuth();
@@ -24,7 +20,7 @@ export default function BookForm() {
 
   useEffect(() => {
     if (isEdit) {
-      fetch(`/api/v1/books/${id}`, { credentials: "include" })
+      fetchWithCsrf(`/api/v1/books/${id}`)
         .then((res) => res.json())
         .then((data) => setBook(data));
     }
@@ -39,13 +35,8 @@ export default function BookForm() {
     const method = isEdit ? "PATCH" : "POST";
     const url = isEdit ? `/api/v1/books/${id}` : "/api/v1/books";
 
-    const res = await fetch(url, {
+    const res = await fetchWithCsrf(url, {
       method,
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": getCsrfToken(),
-      },
       body: JSON.stringify({ book }),
     });
 

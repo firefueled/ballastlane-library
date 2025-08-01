@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import {fetchWithCsrf} from "../api";
 
 const AuthContext = createContext();
 
@@ -11,9 +12,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/v1/current_user", {
-      credentials: "include",
-    })
+    fetchWithCsrf("/api/v1/current_user")
       .then((res) => {
         if (res.ok) return res.json();
         throw new Error("Not authenticated");

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import {fetchWithCsrf} from "../../api";
 
 function getCsrfToken() {
   const meta = document.querySelector('meta[name="csrf-token"]');
@@ -13,9 +14,7 @@ export default function BookList() {
   const { user } = useAuth();
 
   const fetchBooks = async () => {
-    const res = await fetch(`/api/v1/books?q=${encodeURIComponent(q)}`, {
-      credentials: "include",
-    });
+    const res = await fetchWithCsrf(`/api/v1/books?q=${encodeURIComponent(q)}`);
     if (res.ok) {
       const data = await res.json();
       setBooks(data);
@@ -23,13 +22,8 @@ export default function BookList() {
   };
 
   const borrowBook = async (bookId) => {
-    const res = await fetch("/api/v1/borrowings", {
+    const res = await fetchWithCsrf("/api/v1/borrowings", {
       method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-Token": getCsrfToken(),
-      },
       body: JSON.stringify({ book_id: bookId }),
     });
 
@@ -54,12 +48,8 @@ export default function BookList() {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this book?")) return;
-    const res = await fetch(`/api/v1/books/${id}`, {
+    const res = await fetchWithCsrf(`/api/v1/books/${id}`, {
       method: "DELETE",
-      credentials: "include",
-      headers: {
-        "X-CSRF-Token": getCsrfToken(),
-      },
     });
     if (res.ok) fetchBooks();
   };
