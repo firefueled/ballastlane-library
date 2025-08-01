@@ -1,8 +1,7 @@
-# spec/requests/api/v1/books_spec.rb
 require "rails_helper"
 require "support/auth_helpers"
 
-RSpec.describe "Books API", type: :request do
+RSpec.describe "Api::V1::Books", type: :request do
   include AuthHelpers
 
   let(:librarian) { User.create!(email: "librarian@example.com", password: "password", role: :librarian) }
