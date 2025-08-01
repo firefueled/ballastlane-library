@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_31_123752) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_01_123757) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "books", force: :cascade do |t|
-    t.string "title"
-    t.string "author"
-    t.string "genre"
-    t.string "isbn"
-    t.integer "total_copies"
+    t.string "title", null: false
+    t.string "author", null: false
+    t.string "genre", null: false
+    t.string "isbn", null: false
+    t.integer "total_copies", null: false
     t.integer "available_copies"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
