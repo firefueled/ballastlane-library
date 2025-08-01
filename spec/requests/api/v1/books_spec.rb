@@ -38,6 +38,28 @@ RSpec.describe "Api::V1::Books", type: :request do
     end
   end
 
+  describe "GET /api/v1/books/:id" do
+    it "returns the book details for a valid ID" do
+      headers = login_headers(member)
+      get "/api/v1/books/#{book1.id}", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      data = JSON.parse(response.body)
+      expect(data["id"]).to eq(book1.id)
+      expect(data["title"]).to eq("Title One")
+      expect(data["author"]).to eq("Author A")
+      expect(data["genre"]).to eq("Fantasy")
+      expect(data["isbn"]).to eq("ISBN1")
+    end
+
+    it "returns 404 for a non-existent book" do
+      headers = login_headers(member)
+      get "/api/v1/books/999999", headers: headers
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
+
   describe "POST /api/v1/books" do
     let(:valid_params) do
       {

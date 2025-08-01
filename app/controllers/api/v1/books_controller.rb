@@ -14,6 +14,11 @@ module Api
         render json: books
       end
 
+      def show
+        book = Book.find(params[:id])
+        render json: book
+      end
+
       def create
         book = Book.new(book_params)
         if book.save
