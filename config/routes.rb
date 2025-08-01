@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :books
+      resources :books, only: [:index, :create, :update, :destroy]
 
       resources :borrowings, only: [:index, :create] do
         member do
