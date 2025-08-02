@@ -19,63 +19,16 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              <RequireAuth>
-                <Dashboard />
-              </RequireAuth>
-            }
-          />
-          <Route
-            path="/books"
-            element={
-              <RequireAuth>
-                <BookList />
-              </RequireAuth>
-            }
-          />
-            <Route
-              path="/books/new"
-              element={
-                <RequireAuth>
-                  <BookForm />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/books/:id/edit"
-              element={
-                <RequireAuth>
-                  <BookForm />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/my-borrowings"
-              element={
-                <RequireAuth>
-                  <BorrowingsList />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/admin/borrowings"
-              element={
-                <RequireAuth>
-                  <BorrowingsAdmin />
-                </RequireAuth>
-              }
-            />
-            <Route
-              path="/dashboard"
-              element={
-                <RequireAuth>
-                  <Dashboard />
-                </RequireAuth>
-              }
-            />
-            <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route element={<RequireAuth />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/books" element={<BookList />} />
+            <Route path="/books/new" element={<BookForm />} />
+            <Route path="/books/:id/edit" element={<BookForm />} />
+            <Route path="/my-borrowings" element={<BorrowingsList />} />
+            <Route path="/admin/borrowings" element={<BorrowingsAdmin />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
