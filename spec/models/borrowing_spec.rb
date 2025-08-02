@@ -48,12 +48,10 @@ RSpec.describe Borrowing, type: :model do
       expect(duplicate.errors[:base]).to include("You already borrowed this book.")
     end
 
-    it "allows re-borrowing after return" do
-      subject.save
+    it "allows borrowing again after returning" do
       subject.update!(returned_at: Time.current)
-      expect {
-        Borrowing.create!(user: user, book: book)
-      }.not_to raise_error
+      new_borrowing = described_class.new(user: user, book: book)
+      expect(new_borrowing).to be_valid
     end
   end
 

@@ -2,7 +2,7 @@ class Borrowing < ApplicationRecord
   belongs_to :user
   belongs_to :book
 
-  validate :unique_borrowing_per_user, on: :create
+  validate :unique_active_borrowing_per_user, on: :create
   validates :book, presence: true
   validate :book_availability, on: :create, if: -> { book.present? }
 
@@ -16,7 +16,7 @@ class Borrowing < ApplicationRecord
 
   private
 
-  def unique_borrowing_per_user
+  def unique_active_borrowing_per_user
     if Borrowing.exists?(user: user, book: book, returned_at: nil)
       errors.add(:base, "You already borrowed this book.")
     end
