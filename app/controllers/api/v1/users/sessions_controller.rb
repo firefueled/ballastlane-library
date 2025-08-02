@@ -7,6 +7,8 @@ module Api
         before_action :authenticate_user!, only: [:current, :destroy]
 
         def current
+          return head :unauthorized unless current_user
+
           render json: {
             id: current_user.id,
             email: current_user.email,

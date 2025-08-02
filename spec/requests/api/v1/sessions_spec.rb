@@ -7,11 +7,11 @@ RSpec.describe "Api::V1::Sessions", type: :request do
   let(:librarian) { User.create!(email: "lib@example.com", password: "password", role: :librarian) }
   let(:member)    { User.create!(email: "mem@example.com", password: "password", role: :member) }
 
-  describe "GET /api/v1/current_user" do
+  describe "GET /api/v1/users/current" do
     it "returns current user info for librarian" do
       headers = login_headers(librarian)
 
-      get "/api/v1/current_user", headers: headers
+      get "/api/v1/users/current", headers: headers
       expect(response).to have_http_status(:ok)
 
       data = JSON.parse(response.body)
@@ -22,7 +22,7 @@ RSpec.describe "Api::V1::Sessions", type: :request do
     it "returns current user info for member" do
       headers = login_headers(member)
 
-      get "/api/v1/current_user", headers: headers
+      get "/api/v1/users/current", headers: headers
       expect(response).to have_http_status(:ok)
 
       data = JSON.parse(response.body)
@@ -31,7 +31,7 @@ RSpec.describe "Api::V1::Sessions", type: :request do
     end
 
     it "returns unauthorized without login" do
-      get "/api/v1/current_user"
+      get "/api/v1/users/current"
       expect(response).to have_http_status(:unauthorized)
     end
   end
