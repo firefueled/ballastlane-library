@@ -8,27 +8,36 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
+
+  const [loading, setLoading] = useState(user === null);
 
   useEffect(() => {
-    fetchWithCsrf("/api/v1/users/current")
-      .then((res) => {
-        if (res.ok) return res.json();
-        throw new Error("Not authenticated");
-      })
-      .then((data) => {
-        setUser(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setUser(null);
-        setLoading(false);
-      });
+    if (!user) {
+      fetchWithCsrf("/api/v1/users/current")
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error("Not authenticated");
+        })
+        .then((data) => {
+          setUser(data);
+          localStorage.setItem("user", JSON.stringify(data));
+        })
+        .catch(() => {
+          setUser(null);
+          localStorage.removeItem("user");
+        })
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, setUser, loading }}>
       {children}
     </AuthContext.Provider>
   );

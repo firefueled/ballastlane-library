@@ -18,7 +18,7 @@ export default function Login() {
 
     if (response.ok) {
       setError(null);
-      navigate("/dashboard");
+      window.location.href = "/dashboard";
     } else {
       setError("Invalid email or password.");
     }

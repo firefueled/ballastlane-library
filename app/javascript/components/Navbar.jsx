@@ -12,6 +12,7 @@ export default function Navbar() {
 
     if (res.ok) {
       setUser(null);
+      localStorage.removeItem("user");
       navigate("/login");
     } else {
       alert("Failed to log out.");
