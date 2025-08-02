@@ -10,6 +10,7 @@ import BorrowingsList from "./pages/BorrowingsList";
 import BorrowingsAdmin from "./pages/BorrowingsAdmin";
 import Register from "./pages/Register";
 import Navbar from "./Navbar";
+import HomeRedirect from "./HomeRedirect";
 
 export default function App() {
   return (
@@ -17,7 +18,7 @@ export default function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Navigate to="/dashboard" />} />
+          <Route path="/" element={<HomeRedirect />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
