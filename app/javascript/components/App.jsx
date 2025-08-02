@@ -9,11 +9,13 @@ import BookForm from "./pages/BookForm";
 import BorrowingsList from "./pages/BorrowingsList";
 import BorrowingsAdmin from "./pages/BorrowingsAdmin";
 import Register from "./pages/Register";
+import Navbar from "./Navbar";
 
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />

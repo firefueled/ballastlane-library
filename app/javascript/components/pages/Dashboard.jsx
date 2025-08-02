@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../AuthContext";
 import { fetchWithCsrf } from "../../api";
 
 export default function Dashboard() {
-  const navigate = useNavigate();
   const { user } = useAuth();
   const [data, setData] = useState(null);
 
@@ -14,18 +13,6 @@ export default function Dashboard() {
       .then(setData);
   }, []);
 
-  const handleLogout = async () => {
-    const response = await fetchWithCsrf("/api/v1/users/sign_out", {
-      method: "DELETE",
-    });
-
-    if (response.ok) {
-      navigate("/login");
-    } else {
-      alert("Error while signing out. Try again.");
-    }
-  };
-
   if (!user || !data) return <p className="has-text-centered mt-6">Loading...</p>;
 
   return (
@@ -34,11 +21,6 @@ export default function Dashboard() {
         <div className="level mb-5">
           <div className="level-left">
             <h1 className="title is-3">Dashboard</h1>
-          </div>
-          <div className="level-right">
-            <button onClick={handleLogout} className="button is-light is-danger">
-              Sign Out
-            </button>
           </div>
         </div>
 
